@@ -106,15 +106,55 @@ Este es el **backend** del sistema MAQTEC, desarrollado con **Django REST Framew
 
 ## 🛠️ Estructura del proyecto
 
-```bash
+    ```bash
 
-    backend/
-    ├── apps/
-    │   ├── authentication/  # Usuarios y Roles
-    │   ├── clients/        # Clientes, finanzas y cuentas
-    │   ├── products/       # Productos y submódulos
-    │   ├── quotes/    # Cotizaciones y detalle
-    ├── backend/             # Configuración principal Django
-    ├── manage.py
-    └── requirements.txt
-```
+        backend/
+        ├── apps/
+        │   ├── authentication/  # Usuarios y Roles
+        │   ├── clients/        # Clientes, finanzas y cuentas
+        │   ├── products/       # Productos y submódulos
+        │   ├── quotes/    # Cotizaciones y detalle
+        ├── backend/             # Configuración principal Django
+        ├── manage.py
+        └── requirements.txt
+    ```
+
+## 🔑 Funcionalidades principales
+
+    Usuarios y Roles
+    - Gestión de usuarios con email como identificador
+    - Roles asociados a usuarios (UserRole)
+    - Administración vía Django Admin
+
+    Clientes
+
+    - Información de clientes con región, ciudad y comuna
+    - Finanzas y cuentas bancarias
+    - Vendedor responsable por cliente
+
+    Productos
+
+    - Productos con múltiples submodulos: contabilidad, arriendo, ecommerce, fabricación
+    - Gestión de imágenes y precios
+    - Cotizaciones
+    - Cotizaciones con detalle de productos
+    - Relación con clientes y vendedores
+
+## 🔒 Seguridad
+
+    - JWT para autenticación API
+    - Configuración de CORS y CSRF para frontend React
+    - Passwords almacenadas de forma segura (set_password)
+
+## 🚀 Próximos pasos / To-Do
+
+    - Implementación de endpoints REST con Django REST Framework
+    - Integración con frontend React / React Native
+    - Sistema de recomendaciones y alertas
+    - Tareas asíncronas con Redis + Celery
+
+## 📚 Referencias
+
+    - Django Documentation
+    - Django REST Framework
+    - PostgreSQL Documentation
