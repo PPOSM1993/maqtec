@@ -117,3 +117,4 @@ Este es el **backend** del sistema MAQTEC, desarrollado con **Django REST Framew
     ├── backend/             # Configuración principal Django
     ├── manage.py
     └── requirements.txt
+```
