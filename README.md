@@ -52,7 +52,14 @@ El proyecto está diseñado para ser escalable, modular y con enfoque profesiona
 
 ### 1. Clonar el repositorio
 
-    ```bash
-        git clone <URL_DEL_REPO>
-        cd maqtec_project
-    ```
+    git clone https://github.com/pedro-hernández/maqtec.git
+
+### 2. Entrar al directorio del proyecto
+
+    cd maqtec
+
+### 3. Crear y activar el entorno virtual
+
+    python -m venv env
+    source env/bin/activate  # Linux/Mac
+    env\Scripts\activate     # Windows
