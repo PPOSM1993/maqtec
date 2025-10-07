@@ -63,3 +63,28 @@ El proyecto está diseñado para ser escalable, modular y con enfoque profesiona
     python -m venv env
     source env/bin/activate  # Linux/Mac
     env\Scripts\activate     # Windows
+
+### 4. Instalar dependencias
+
+    cd backend
+    python -m venv env
+    source env/bin/activate       # Linux/Mac
+    env\Scripts\activate          # Windows
+    pip install -r requirements.txt
+
+    # Configurar .env
+    cp .env.example .env
+
+    # Migraciones y superusuario
+    python manage.py makemigrations
+    python manage.py migrate
+    python manage.py createsuperuser
+
+    # Ejecutar servidor
+    python manage.py runserver
+
+### 5.Frontend Web
+
+    cd frontend-web
+    npm install
+    npm run dev
