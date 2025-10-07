@@ -18,7 +18,7 @@ Este es el **backend** del sistema MAQTEC, desarrollado con **Django REST Framew
 1. Clonar el repositorio:
 
     ```bash
-        git clone <URL_DEL_REPO>
+        git clone https://github.com/PPOSM1993/maqtec
     ```
 
 2. Entrar al directorio del proyecto:
