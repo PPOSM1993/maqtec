@@ -57,3 +57,9 @@ El proyecto está diseñado para ser escalable, modular y con enfoque profesiona
 ### 2. Entrar al directorio del proyecto
 
     cd maqtec
+
+### 3. Crear y activar el entorno virtual
+
+    python -m venv env
+    source env/bin/activate  # Linux/Mac
+    env\Scripts\activate     # Windows
