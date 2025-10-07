@@ -82,3 +82,9 @@ El proyecto está diseñado para ser escalable, modular y con enfoque profesiona
 
     # Ejecutar servidor
     python manage.py runserver
+
+### 5.Frontend Web
+
+    cd frontend-web
+    npm install
+    npm run dev
