@@ -1,13 +1,19 @@
 from pathlib import Path
 import os
 from decouple import config
+from dotenv import load_dotenv
+
+
+load_dotenv()
+
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
+
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "fallback_secret")
 DEBUG = os.getenv("DJANGO_DEBUG", "False").lower() in ["true", "1", "t"]
-ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "localhost").split(",")
+ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "localhost,127.0.0.1,[::1]").split(",")
 
 
 # Application definition
