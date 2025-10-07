@@ -84,3 +84,18 @@ Este es el **backend** del sistema MAQTEC, desarrollado con **Django REST Framew
         python manage.py makemigrations
         python manage.py migrate
     ```
+
+7. Crear un superusuario:
+
+    ```bash
+        python manage.py createsuperuser
+        # Se solicitarán email, username, first_name, last_name y password
+    ```
+
+8. Ejecutar el servidor:
+
+    ```bash
+        python manage.py runserver
+    ```
+
+    El backend estará disponible en: http://127.0.0.1:8000/
