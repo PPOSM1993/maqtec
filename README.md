@@ -52,8 +52,8 @@ El proyecto está diseñado para ser escalable, modular y con enfoque profesiona
 
 ### 1. Clonar el repositorio
 
-```bash
     git clone https://github.com/pedro-hernández/maqtec.git
-```
 
 ### 2. Entrar al directorio del proyecto
+
+    cd maqtec
