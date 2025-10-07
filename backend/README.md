@@ -103,3 +103,17 @@ Este es el **backend** del sistema MAQTEC, desarrollado con **Django REST Framew
     ```bash
         http://localhost:8000/
     ```
+
+## 🛠️ Estructura del proyecto
+
+```bash
+
+    backend/
+    ├── apps/
+    │   ├── authentication/  # Usuarios y Roles
+    │   ├── clients/        # Clientes, finanzas y cuentas
+    │   ├── products/       # Productos y submódulos
+    │   ├── quotes/    # Cotizaciones y detalle
+    ├── backend/             # Configuración principal Django
+    ├── manage.py
+    └── requirements.txt
