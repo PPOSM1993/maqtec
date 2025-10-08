@@ -35,6 +35,7 @@ schema_view = get_schema_view(
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/authentication/', include('apps.authentication.urls')),
+    path('api/clients/', include('apps.clients.urls')),
     path('swagger-ui/', TemplateView.as_view(template_name='swagger-ui.html'), name='swagger-custom'),
     path('grappelli/', include('grappelli.urls')),
 

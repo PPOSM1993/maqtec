@@ -30,7 +30,9 @@ class CommuneSerializer(serializers.ModelSerializer):
 # ClienteFinanza
 # -----------------------------
 class ClienteFinanzaSerializer(serializers.ModelSerializer):
-    actualizado_por = serializers.StringRelatedField(read_only=True)
+    actualizado_por = serializers.PrimaryKeyRelatedField(
+        queryset=User.objects.all(), required=False, allow_null=True
+    )
 
     class Meta:
         model = ClienteFinanza
@@ -40,21 +42,20 @@ class ClienteFinanzaSerializer(serializers.ModelSerializer):
 # ClienteCuenta
 # -----------------------------
 class ClienteCuentaSerializer(serializers.ModelSerializer):
-    actualizado_por = serializers.StringRelatedField(read_only=True)
+    actualizado_por = serializers.PrimaryKeyRelatedField(
+        queryset=User.objects.all(), required=False, allow_null=True
+    )
 
     class Meta:
         model = ClienteCuenta
         fields = ['id', 'banco', 'cuenta_corriente', 'titular', 'monto_cheque', 'mandato', 'actualizado_por']
 
 # -----------------------------
-# Cliente
+# Cliente con nested finanzas y cuentas
 # -----------------------------
 class ClienteSerializer(serializers.ModelSerializer):
-    region = RegionSerializer(read_only=True)
-    comuna = CommuneSerializer(read_only=True)
-    vendedor = serializers.StringRelatedField(read_only=True)
-    finanzas = ClienteFinanzaSerializer(many=True, read_only=True)
-    cuentas = ClienteCuentaSerializer(many=True, read_only=True)
+    finanzas = ClienteFinanzaSerializer(many=True, required=False)
+    cuentas = ClienteCuentaSerializer(many=True, required=False)
 
     class Meta:
         model = Cliente
@@ -63,3 +64,49 @@ class ClienteSerializer(serializers.ModelSerializer):
             'region', 'comuna', 'vendedor', 'descuento', 'activo',
             'telefono', 'finanzas', 'cuentas'
         ]
+
+    def create(self, validated_data):
+        finanzas_data = validated_data.pop('finanzas', [])
+        cuentas_data = validated_data.pop('cuentas', [])
+
+        cliente = Cliente.objects.create(**validated_data)
+
+        for f_data in finanzas_data:
+            ClienteFinanza.objects.create(cliente=cliente, **f_data)
+        for c_data in cuentas_data:
+            ClienteCuenta.objects.create(cliente=cliente, **c_data)
+
+        return cliente
+
+    def update(self, instance, validated_data):
+        finanzas_data = validated_data.pop('finanzas', [])
+        cuentas_data = validated_data.pop('cuentas', [])
+
+        # Actualizar campos del cliente
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        instance.save()
+
+        # Actualizar finanzas
+        for f_data in finanzas_data:
+            finanza_id = f_data.get('id', None)
+            if finanza_id:
+                finanza = ClienteFinanza.objects.get(id=finanza_id, cliente=instance)
+                for attr, value in f_data.items():
+                    setattr(finanza, attr, value)
+                finanza.save()
+            else:
+                ClienteFinanza.objects.create(cliente=instance, **f_data)
+
+        # Actualizar cuentas
+        for c_data in cuentas_data:
+            cuenta_id = c_data.get('id', None)
+            if cuenta_id:
+                cuenta = ClienteCuenta.objects.get(id=cuenta_id, cliente=instance)
+                for attr, value in c_data.items():
+                    setattr(cuenta, attr, value)
+                cuenta.save()
+            else:
+                ClienteCuenta.objects.create(cliente=instance, **c_data)
+
+        return instance
