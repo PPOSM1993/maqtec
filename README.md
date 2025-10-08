@@ -83,11 +83,11 @@ El proyecto está diseñado para ser escalable, modular y con enfoque profesiona
     touch .env.local #Para despliegue en producción
     touch .env.example #Para configurar variables de entorno
 
-    Los archivos .env y .env.local, al momento de configurarlos, deben quedar ocultos con .gitignore, debido a que su informacion sensible puede contener información de conexión a la base de datos y API REST.
+Los archivos .env y .env.local, al momento de configurarlos, deben quedar ocultos con .gitignore, debido a que su informacion sensible puede contener información de conexión a la base de datos y API REST.
 
 ### 8. Configuramos el archivo .env
 
-    Ver archivo .env.example para ver las variables de entorno disponibles, ademas se debe crear la base de datos y configurar las credenciales de conexión a la misma, con PostgreSQL.
+Ver archivo .env.example para ver las variables de entorno disponibles, ademas se debe crear la base de datos y configurar las credenciales de conexión a la misma, con PostgreSQL, este se encuentra en .env.example.
 
 
 ### 9.Migraciones y creación de superusuario
@@ -109,14 +109,14 @@ El proyecto está diseñado para ser escalable, modular y con enfoque profesiona
 
 ### 1.Entramos al directorio del proyecto
 
-    Primero salimos del directorio del backend, para luego entrar al directorio del frontend
+Primero salimos del directorio del backend, para luego entrar al directorio del frontend
 
         cd ..
         cd frontend
 
 ### 2.Instalamos dependencias
 
-    Se usa npm para instalar las dependencias, pero también se puede usar yarn
+Se usa npm para instalar las dependencias, pero también se puede usar yarn
 
         npm install
         yarn install
@@ -126,4 +126,30 @@ El proyecto está diseñado para ser escalable, modular y con enfoque profesiona
     npm run dev
     yarn dev
 
-    El frontend se ejecutará en http://localhost:3000/, que es el puerto predeterminado de Next.js.
+El frontend se ejecutará en http://localhost:3000/, que es el puerto predeterminado de Next.js.
+
+## 🗂️ Estructura del proyecto
+
+maqtec_project/
+├── backend/            # Backend Django
+│   ├── apps/           # Módulos: authentication, clientes, productos, cotizaciones
+│   └── manage.py
+├── frontend-web/       # Frontend Web Next.js
+├── README.md
+└── docker-compose.yml  # Contenedores backend, frontend, DB y Redis
+
+# 🚀 Próximos pasos
+
+- Completar endpoints REST y documentación API (Swagger / Redoc)
+- Integración completa de frontend y backend
+- Sistema de permisos y roles avanzados
+- Mejoras en seguridad y pruebas automatizadas
+- Implementar CI/CD completo
+
+
+# Recursos útiles
+
+- Documentación Django
+- Django REST Framework
+- Next.js
+- TailwindCSS
