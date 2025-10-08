@@ -83,11 +83,11 @@ El proyecto está diseñado para ser escalable, modular y con enfoque profesiona
     touch .env.local #Para despliegue en producción
     touch .env.example #Para configurar variables de entorno
 
-    #Los archivos .env y .env, al momento de configurarlos, deben quedar ocultos con .gitignore, debido a que su informacion sensible puede contener información de conexión a la base de datos y API REST.
+    Los archivos .env y .env.local, al momento de configurarlos, deben quedar ocultos con .gitignore, debido a que su informacion sensible puede contener información de conexión a la base de datos y API REST.
 
 ### 8. Configuramos el archivo .env
 
-    ## Ver archivo .env.example para ver las variables de entorno disponibles, ademas se debe crear la base de datos y configurar las credenciales de conexión a la misma, con PostgreSQL.
+    Ver archivo .env.example para ver las variables de entorno disponibles, ademas se debe crear la base de datos y configurar las credenciales de conexión a la misma, con PostgreSQL.
 
 
 ### 9.Migraciones y creación de superusuario
@@ -97,6 +97,33 @@ El proyecto está diseñado para ser escalable, modular y con enfoque profesiona
     python manage.py createsuperuser
 
 
-### Ejecutar servidor
+### 10. Ejecutar servidor
 
     python manage.py runserver
+
+    El servidor se ejecutará en http://127.0.0.1:8000/, que es el puerto predeterminado de Django.
+
+---
+
+## ⚙️ Instalación y configuración del Frontend
+
+### 1.Entramos al directorio del proyecto
+
+    Primero salimos del directorio del backend, para luego entrar al directorio del frontend
+
+        cd ..
+        cd frontend
+
+### 2.Instalamos dependencias
+
+    Se usa npm para instalar las dependencias, pero también se puede usar yarn
+
+        npm install
+        yarn install
+
+### 3. Ejecutamos el frontend
+
+    npm run dev
+    yarn dev
+
+    El frontend se ejecutará en http://localhost:3000/, que es el puerto predeterminado de Next.js.
