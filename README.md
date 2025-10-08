@@ -1,6 +1,6 @@
 # 🏗️ MAQTEC ERP — Stack Actualizado (2025)
 
-MAQTEC ERP es un sistema integral de gestión de clientes, productos, cotizaciones y más, con **frontend moderno (Next.js + TailwindCSS)** y **backend robusto (Django REST Framework + PostgreSQL)**.  
+MAQTEC ERP es un sistema integral de gestión de clientes, productos, cotizaciones y más, con **frontend moderno (Next.js + TailwindCSS)** y **backend robusto (Django REST Framework + PostgreSQL)**.
 El proyecto está diseñado para ser escalable, modular y con enfoque profesional en DevOps y CI/CD.
 
 ---
