@@ -122,7 +122,7 @@ El proyecto está diseñado para ser escalable, modular y con enfoque profesiona
         yarn install
 
 ### 3. Ejecutamos el frontend
-    
+
     npm run dev
     yarn dev
 
