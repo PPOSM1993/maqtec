@@ -48,43 +48,55 @@ El proyecto está diseñado para ser escalable, modular y con enfoque profesiona
 
 ---
 
-## ⚙️ Instalación y configuración
+## ⚙️ Instalación y configuración del Backend
 
 ### 1. Clonar el repositorio
+`
+    git clone <URL_DEL_REPO>
 
-    git clone https://github.com/pedro-hernández/maqtec.git
 
-### 2. Entrar al directorio del proyecto
+### 2.Entrar al directorio del proyecto
 
     cd maqtec
 
-### 3. Crear y activar el entorno virtual
 
-    python -m venv env
-    source env/bin/activate  # Linux/Mac
-    env\Scripts\activate     # Windows
-
-### 4. Instalar dependencias
+### 3.Entramos a la crpeta backend
 
     cd backend
+
+### 4. Creamos el entorno virtual
+
     python -m venv env
-    source env/bin/activate       # Linux/Mac
-    env\Scripts\activate          # Windows
+
+### 5. Activamos el entorno virtual
+
+    source env/bin/activate  #Linux/Mac
+    env\Scripts\activate.bat  #Windows
+
+### 6. Instalamos las dependencias
+
     pip install -r requirements.txt
 
-    # Configurar .env
-    cp .env.example .env
+### 7. Creamos el archivo .env
 
-    # Migraciones y superusuario
+    touch .env  #Para desarrollo local
+    touch .env.local #Para despliegue en producción
+    touch .env.example #Para configurar variables de entorno
+
+    #Los archivos .env y .env, al momento de configurarlos, deben quedar ocultos con .gitignore, debido a que su informacion sensible puede contener información de conexión a la base de datos y API REST.
+
+### 8. Configuramos el archivo .env
+
+    ## Ver archivo .env.example para ver las variables de entorno disponibles, ademas se debe crear la base de datos y configurar las credenciales de conexión a la misma, con PostgreSQL.
+
+
+### 9.Migraciones y creación de superusuario
+
     python manage.py makemigrations
     python manage.py migrate
     python manage.py createsuperuser
 
-    # Ejecutar servidor
+
+### Ejecutar servidor
+
     python manage.py runserver
-
-### 5.Frontend Web
-
-    cd frontend-web
-    npm install
-    npm run dev
