@@ -34,8 +34,10 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include('apps.authentication.urls')),
-    path('api/', include('apps.clients.urls')),
+    path('api/auth/', include('rest_framework.urls')),
+    path('api/clients/', include('apps.clients.urls')),
+    path('api/products/', include('apps.products.urls')),
+    path('api/quotes/', include('apps.quotes.urls')),
     path('swagger-ui/', TemplateView.as_view(template_name='swagger-ui.html'), name='swagger-custom'),
     path('grappelli/', include('grappelli.urls')),
 
