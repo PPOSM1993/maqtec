@@ -101,7 +101,7 @@ Ver archivo .env.example para ver las variables de entorno disponibles, ademas s
 
     python manage.py runserver
 
-    El servidor se ejecutará en http://127.0.0.1:8000/, que es el puerto predeterminado de Django.
+El servidor se ejecutará en http://127.0.0.1:8000/, que es el puerto predeterminado de Django.
 
 ---
 
