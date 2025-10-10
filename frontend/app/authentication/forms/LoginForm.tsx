@@ -66,7 +66,7 @@ const LoginForm = () => {
         <div className="flex justify-center mb-6">
           <div className="relative w-24 h-24 sm:w-32 sm:h-32 md:w-36 md:h-36 lg:w-40 lg:h-40">
             <Image
-              src="/logo.png"
+              src="/logo2.png"
               alt="Maqtec Logo"
               fill
               className="object-contain animate-bounce-slow"

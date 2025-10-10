@@ -2,53 +2,71 @@
 
 import React from "react";
 import { useRouter } from "next/navigation";
-import { Menu, LogOut } from "lucide-react";
+import { LogOut, Menu } from "lucide-react";
 import { useAuth } from "../hooks/useAuth";
 import Image from "next/image";
-const Navbar = () => {
-    const { user, logout } = useAuth();
-    const router = useRouter();
 
-    const handleLogout = () => {
-        logout();
-        router.push("/authentication");
-    };
+interface NavbarProps {
+  onToggleSidebar?: () => void; // 🔹 opcional, para conectar con el sidebar
+}
 
-    return (
-        <header className="w-full bg-yellow-400 text-black shadow-md flex justify-between items-center px-4 md:px-8 py-3 sticky top-0 z-50">
-            {/* === Logo / Marca === */}
-            <div className="flex items-center gap-3">
-                <button className="md:hidden p-2 rounded hover:bg-yellow-300 transition">
-                    <Menu size={24} />
-                </button>
-                <div className="relative w-32 h-20">
-                    <Image
-                        src="/logo2.png"
-                        alt="Maqtec Logo"
-                        fill
-                        className="object-contain"
-                        priority
-                    />
-                </div>
-            </div>
+const Navbar: React.FC<NavbarProps> = ({ onToggleSidebar }) => {
+  const { user, logout } = useAuth();
+  const router = useRouter();
 
-            {/* === Usuario + Logout === */}
-            <div className="flex items-center gap-4">
-                {user && (
-                    <span className="hidden sm:inline text-sm font-medium">
-                        Hola, <strong>{user.username || "Usuario"}</strong>
-                    </span>
-                )}
-                <button
-                    onClick={handleLogout}
-                    className="flex items-center gap-2 bg-black text-yellow-400 font-semibold px-3 py-2 rounded hover:bg-gray-900 transition"
-                >
-                    <LogOut size={18} />
-                    <span className="hidden sm:inline">Salir</span>
-                </button>
-            </div>
-        </header>
-    );
+  const handleLogout = () => {
+    logout();
+    router.push("/authentication");
+  };
+
+  return (
+    <header className="w-full bg-yellow-400 text-black shadow-md flex items-center justify-between px-4 sm:px-6 md:px-8 py-3 sticky top-0 z-50 transition-all duration-300">
+      {/* === Izquierda: Menú + Logo === */}
+      <div className="flex items-center gap-4">
+        {/* Botón de colapsar sidebar (solo visible en móvil) */}
+        {onToggleSidebar && (
+          <button
+            onClick={onToggleSidebar}
+            className="p-2 rounded-md hover:bg-yellow-300 transition sm:hidden"
+            aria-label="Abrir menú lateral"
+          >
+            <Menu size={22} />
+          </button>
+        )}
+
+        {/* Logo Maqtec */}
+        <div className="relative w-36 h-10 md:w-44 md:h-12">
+          <Image
+            src="/logo2.png"
+            alt="Maqtec Logo"
+            fill
+            className="object-contain"
+            priority
+          />
+        </div>
+      </div>
+
+      {/* === Derecha: Usuario + Logout === */}
+      <div className="flex items-center gap-4">
+        {user && (
+          <span className="hidden sm:inline text-sm md:text-base font-medium">
+            Hola,&nbsp;
+            <strong className="font-semibold text-black">
+              {user.username || "Usuario"}
+            </strong>
+          </span>
+        )}
+
+        <button
+          onClick={handleLogout}
+          className="flex items-center gap-2 bg-black text-yellow-400 font-semibold px-3 py-2 md:px-4 md:py-2 rounded-md hover:bg-gray-900 transition-all duration-200"
+        >
+          <LogOut size={18} />
+          <span className="hidden sm:inline text-sm md:text-base">Salir</span>
+        </button>
+      </div>
+    </header>
+  );
 };
 
 export default Navbar;
