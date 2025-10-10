@@ -52,6 +52,9 @@ El proyecto está diseñado para ser escalable, modular y con enfoque profesiona
 <img width="1914" height="915" alt="Screenshot from 2025-10-10 17-35-43" src="https://github.com/user-attachments/assets/a4f729c7-e2e9-4875-8bd1-ff7c5f71b45b" />
 
 
+<img width="1919" height="989" alt="Screenshot from 2025-10-10 17-37-19" src="https://github.com/user-attachments/assets/1de29356-bf1e-47e4-a4d5-d3224f34a78e" />
+
+
 
 ## ⚙️ Instalación y configuración del Backend
 
