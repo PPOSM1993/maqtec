@@ -15,7 +15,7 @@ type LoginFormInputs = {
   password: string;
 };
 
-// Componente de inputs usando FormContext
+// Componente reutilizable para inputs
 const FormInput = ({ id, label, type, placeholder }: { id: string; label: string; type: string; placeholder: string }) => {
   const { register } = useFormContext<LoginFormInputs>();
   return (
@@ -40,12 +40,7 @@ const LoginForm = () => {
   const onSubmit: SubmitHandler<LoginFormInputs> = async (data) => {
     try {
       const response = await loginUser({ email: data.email, password: data.password });
-      console.log("Respuesta backend:", response);
-
-      // Guardar usuario y token en Zustand
       auth.setUser({ ...response.user, token: response.access });
-
-      // Redirigir al dashboard SPA
       router.push("/dashboard");
     } catch (err) {
       alert("❌ Error de conexión o credenciales inválidas");
@@ -58,10 +53,9 @@ const LoginForm = () => {
       <div className="absolute inset-0 bg-gradient-to-tr from-yellow-80 via-yellow-20 to-gray-20 animate-gradient-move"></div>
 
       {/* Card principal */}
-      <div className="relative w-full max-w-md sm:max-w-lg md:max-w-md p-8 bg-white rounded-sm shadow-xl transform transition-transform duration-300 hover:shadow-xl">
-
+      <Card className="relative w-full max-w-md sm:max-w-lg md:max-w-md p-6 shadow-xl transform transition-transform duration-300 hover:shadow-xl">
         {/* Logo */}
-        <div className="flex justify-center mb-8">
+        <div className="flex justify-center mb-6">
           <div className="relative w-24 h-24 sm:w-32 sm:h-32 md:w-36 md:h-36 lg:w-40 lg:h-40">
             <Image
               src="/logo.png"
@@ -74,30 +68,34 @@ const LoginForm = () => {
         </div>
 
         {/* Título */}
-        <h1 className="text-2xl sm:text-2xl md:text-3xl font-bold text-center text-gray-900 mb-6 tracking-wide">
-          Iniciar Sesión
-        </h1>
+        <CardHeader>
+          <CardTitle className="text-center text-2xl sm:text-3xl font-bold text-gray-900 mb-6 tracking-wide">
+            Iniciar Sesión
+          </CardTitle>
+        </CardHeader>
 
-        {/* Formulario react-hook-form usando FormProvider */}
-        <FormProvider {...methods}>
-          <form onSubmit={methods.handleSubmit(onSubmit)} className="space-y-5 relative z-10">
-            <FormInput id="email" label="Email" type="text" placeholder="tu@email.com" />
-            <FormInput id="password" label="Contraseña" type="password" placeholder="********" />
+        {/* Formulario */}
+        <CardContent>
+          <FormProvider {...methods}>
+            <form onSubmit={methods.handleSubmit(onSubmit)} className="space-y-5 relative z-10">
+              <FormInput id="email" label="Email" type="text" placeholder="tu@email.com" />
+              <FormInput id="password" label="Contraseña" type="password" placeholder="********" />
 
-            <Button
-              type="submit"
-              className="w-full bg-yellow-400 text-black font-bold py-3 sm:py-2 rounded-sm shadow-md hover:shadow-md hover:scale-105 focus:ring-4 focus:ring-yellow-300 transition-transform duration-200 text-base sm:text-md"
-            >
-              Ingresar
-            </Button>
-          </form>
-        </FormProvider>
+              <Button
+                type="submit"
+                className="w-full bg-yellow-400 text-black font-bold py-3 sm:py-2 rounded-sm shadow-md hover:shadow-md hover:scale-105 focus:ring-4 focus:ring-yellow-300 transition-transform duration-200 text-base sm:text-md"
+              >
+                Ingresar
+              </Button>
+            </form>
+          </FormProvider>
+        </CardContent>
 
         {/* Pie de página */}
         <p className="mt-6 text-center text-sm sm:text-base text-gray-500 relative z-10">
           &copy; {new Date().getFullYear()} Maqtec. Todos los derechos reservados.
         </p>
-      </div>
+      </Card>
 
       {/* Animación de fondo */}
       <style jsx>{`
