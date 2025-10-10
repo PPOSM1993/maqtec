@@ -20,12 +20,12 @@ export const loginUser = async ({
 }: { email: string; password: string }) => {
   const csrfToken = getCookie("csrftoken");
 
-  const res = await fetch("http://127.0.0.1:8000/api/auth/login/", {
+  const res = await fetch("http://127.0.0.1:8000/api/authentication/login/", {
     method: "POST",
-    credentials: "include",  // ✅ envía cookies al backend
+    credentials: "include", // necesario para que Django acepte cookies
     headers: {
       "Content-Type": "application/json",
-      "X-CSRFToken": csrfToken || "", // ✅ token CSRF
+      "X-CSRFToken": csrfToken || "",
     },
     body: JSON.stringify({ email, password }),
   });
