@@ -57,7 +57,7 @@ El proyecto está diseñado para ser escalable, modular y con enfoque profesiona
 
 ### 1. Clonar el repositorio
 `
-    git clone <URL_DEL_REPO>
+    git clone https://github.com/PPOSM1993/maqtec/tree/inicio-backend
 
 
 ### 2.Entrar al directorio del proyecto
