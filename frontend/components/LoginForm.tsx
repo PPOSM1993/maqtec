@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useAuth } from "../hooks/useAuth";
 import { loginUser } from "../lib/api";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm, SubmitHandler, FormProvider, useFormContext } from "react-hook-form";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -15,10 +15,27 @@ type LoginFormInputs = {
   password: string;
 };
 
+// Componente de inputs usando FormContext
+const FormInput = ({ id, label, type, placeholder }: { id: string; label: string; type: string; placeholder: string }) => {
+  const { register } = useFormContext<LoginFormInputs>();
+  return (
+    <div>
+      <Label htmlFor={id} className="text-sm sm:text-base font-medium text-gray-700">{label}</Label>
+      <Input
+        id={id}
+        type={type}
+        placeholder={placeholder}
+        {...register(id as keyof LoginFormInputs, { required: true })}
+        className="mt-2 block w-full rounded-md border-gray-300 shadow-sm text-sm sm:text-base py-2.5 px-4 transition-all duration-200"
+      />
+    </div>
+  );
+};
+
 const LoginForm = () => {
   const router = useRouter();
   const auth = useAuth();
-  const { register, handleSubmit } = useForm<LoginFormInputs>();
+  const methods = useForm<LoginFormInputs>();
 
   const onSubmit: SubmitHandler<LoginFormInputs> = async (data) => {
     try {
@@ -61,41 +78,20 @@ const LoginForm = () => {
           Iniciar Sesión
         </h1>
 
-        {/* Formulario react-hook-form */}
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-5 relative z-10">
-          <div>
-            <Label htmlFor="email" className="text-sm sm:text-base font-medium text-gray-700">
-              Email
-            </Label>
-            <Input
-              id="email"
-              type="text"
-              placeholder="Nombre de Usuario"
-              {...register("email", { required: true })}
-              className="mt-2 block w-full rounded-md border-gray-300 shadow-sm text-sm sm:text-base py-2.5 px-4 transition-all duration-200"
-            />
-          </div>
+        {/* Formulario react-hook-form usando FormProvider */}
+        <FormProvider {...methods}>
+          <form onSubmit={methods.handleSubmit(onSubmit)} className="space-y-5 relative z-10">
+            <FormInput id="email" label="Email" type="text" placeholder="tu@email.com" />
+            <FormInput id="password" label="Contraseña" type="password" placeholder="********" />
 
-          <div>
-            <Label htmlFor="password" className="text-sm sm:text-base font-medium text-gray-700">
-              Contraseña
-            </Label>
-            <Input
-              id="password"
-              type="password"
-              placeholder="********"
-              {...register("password", { required: true })}
-              className="mt-2 block w-full rounded-md border-gray-300 shadow-sm text-sm sm:text-base py-2.5 px-4 transition-all duration-200"
-            />
-          </div>
-
-          <Button
-            type="submit"
-            className="w-full bg-yellow-400 text-black font-bold py-3 sm:py-2 rounded-sm shadow-md hover:shadow-md hover:scale-105 focus:ring-4 focus:ring-yellow-300 transition-transform duration-200 text-base sm:text-md"
-          >
-            Ingresar
-          </Button>
-        </form>
+            <Button
+              type="submit"
+              className="w-full bg-yellow-400 text-black font-bold py-3 sm:py-2 rounded-sm shadow-md hover:shadow-md hover:scale-105 focus:ring-4 focus:ring-yellow-300 transition-transform duration-200 text-base sm:text-md"
+            >
+              Ingresar
+            </Button>
+          </form>
+        </FormProvider>
 
         {/* Pie de página */}
         <p className="mt-6 text-center text-sm sm:text-base text-gray-500 relative z-10">
