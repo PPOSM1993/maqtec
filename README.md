@@ -51,14 +51,13 @@ El proyecto está diseñado para ser escalable, modular y con enfoque profesiona
 ## ⚙️ Instalación y configuración del Backend
 
 ### 1. Clonar el repositorio
+
 `
     git clone <URL_DEL_REPO>
-
 
 ### 2.Entrar al directorio del proyecto
 
     cd maqtec
-
 
 ### 3.Entramos a la crpeta backend
 
@@ -89,19 +88,17 @@ Los archivos .env y .env.local, al momento de configurarlos, deben quedar oculto
 
 Ver archivo .env.example para ver las variables de entorno disponibles, ademas se debe crear la base de datos y configurar las credenciales de conexión a la misma, con PostgreSQL, este se encuentra en .env.example.
 
-
 ### 9.Migraciones y creación de superusuario
 
     python manage.py makemigrations
     python manage.py migrate
     python manage.py createsuperuser
 
-
 ### 10. Ejecutar servidor
 
     python manage.py runserver
 
-El servidor se ejecutará en http://127.0.0.1:8000/, que es el puerto predeterminado de Django.
+El servidor se ejecutará en <http://127.0.0.1:8000/>, que es el puerto predeterminado de Django.
 
 ---
 
@@ -126,17 +123,17 @@ Se usa npm para instalar las dependencias, pero también se puede usar yarn
     npm run dev
     yarn dev
 
-El frontend se ejecutará en http://localhost:3000/, que es el puerto predeterminado de Next.js.
+El frontend se ejecutará en <http://localhost:3000/>, que es el puerto predeterminado de Next.js.
 
 ## 🗂️ Estructura del proyecto
 
-maqtec_project/
-├── backend/            # Backend Django
-│   ├── apps/           # Módulos: authentication, clientes, productos, cotizaciones
-│   └── manage.py
-├── frontend-web/       # Frontend Web Next.js
-├── README.md
-└── docker-compose.yml  # Contenedores backend, frontend, DB y Redis
+    maqtec_project/
+    ├── backend/
+    │   ├── apps/
+    │   └── manage.py
+    ├── frontend-web/
+    ├── README.md
+    └── docker-compose.yml
 
 # 🚀 Próximos pasos
 
@@ -145,7 +142,6 @@ maqtec_project/
 - Sistema de permisos y roles avanzados
 - Mejoras en seguridad y pruebas automatizadas
 - Implementar CI/CD completo
-
 
 # Recursos útiles
 
