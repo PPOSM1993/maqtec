@@ -1,23 +1,49 @@
 "use client";
-
 import React from "react";
-import Navbar from "../../../components/Navbar";
+import { FaShoppingCart, FaUserPlus, FaChartPie } from "react-icons/fa";
+import { IoStatsChart } from "react-icons/io5";
+import StatCard from "../../../components/StatCard";
 
 const Dashboard = () => {
   return (
-    <div className="min-h-screen flex flex-col bg-gray-50">
-      {/* === Navbar === */}
-      <Navbar />
+    <div className="flex flex-col min-h-screen bg-gray-50">
 
-      {/* === Contenido principal === */}
-      <main className="flex-1 flex flex-col items-center justify-center px-4 py-10">
-        <h1 className="text-3xl font-bold text-center text-gray-900 mb-6 tracking-wide">
-          Bienvenido al Dashboard de Maqtec
+      <main className="flex-1 p-6">
+        <h1 className="text-2xl font-bold text-gray-900 mb-6">
+          Panel de Control
         </h1>
 
-        <p className="text-gray-700 text-center max-w-xl">
-          Aquí podrás ver tus métricas, datos y demás funcionalidades.
-        </p>
+        {/* === Contenedor de tarjetas === */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          <StatCard
+            title="Clientes"
+            value={150}
+            icon={FaShoppingCart}
+            color="info"
+            link="#"
+          />
+          <StatCard
+            title="Repuestos"
+            value="53%"
+            icon={IoStatsChart}
+            color="success"
+            link="#"
+          />
+          <StatCard
+            title="Cotizaciones"
+            value={44}
+            icon={FaUserPlus}
+            color="warning"
+            link="#"
+          />
+          <StatCard
+            title="Presupuestos de Trabajo"
+            value={65}
+            icon={FaChartPie}
+            color="danger"
+            link="#"
+          />
+        </div>
       </main>
     </div>
   );
