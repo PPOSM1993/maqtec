@@ -1,13 +1,15 @@
 from rest_framework import serializers
 from apps.quotes.models import Cotizacion, CotizacionDetalle
-from apps.clients.models import Cliente
-from apps.products.models import Producto
 
 
 # === DETALLE DE COTIZACIÓN ===
 class CotizacionDetalleSerializer(serializers.ModelSerializer):
     producto_nombre = serializers.CharField(source="producto.descripcion", read_only=True)
     producto_codigo = serializers.CharField(source="producto.codigo", read_only=True)
+    subtotal = serializers.DecimalField(max_digits=14, decimal_places=2, read_only=True)
+    rentabilidad = serializers.DecimalField(max_digits=12, decimal_places=2, read_only=True)
+    neto_unitario = serializers.DecimalField(max_digits=12, decimal_places=2, read_only=True)
+    bruto_unitario = serializers.DecimalField(max_digits=12, decimal_places=2, read_only=True)
 
     class Meta:
         model = CotizacionDetalle
@@ -47,6 +49,14 @@ class CotizacionSerializer(serializers.ModelSerializer):
     vendedor_nombre = serializers.CharField(source="vendedor.username", read_only=True)
     detalles = CotizacionDetalleSerializer(many=True)
 
+    neto = serializers.DecimalField(max_digits=14, decimal_places=2, read_only=True)
+    descuento_total = serializers.DecimalField(max_digits=14, decimal_places=2, read_only=True)
+    flete_total = serializers.DecimalField(max_digits=14, decimal_places=2, read_only=True)
+    impuesto = serializers.DecimalField(max_digits=14, decimal_places=2, read_only=True)
+    total = serializers.DecimalField(max_digits=14, decimal_places=2, read_only=True)
+    exento = serializers.DecimalField(max_digits=14, decimal_places=2, read_only=True)
+    rentabilidad_total = serializers.DecimalField(max_digits=14, decimal_places=2, read_only=True)
+
     class Meta:
         model = Cotizacion
         fields = [
@@ -85,7 +95,6 @@ class CotizacionSerializer(serializers.ModelSerializer):
             "detalles",
         ]
 
-    # === Sobrescribimos create/update para manejar detalles anidados ===
     def create(self, validated_data):
         detalles_data = validated_data.pop("detalles", [])
         cotizacion = Cotizacion.objects.create(**validated_data)
@@ -93,18 +102,40 @@ class CotizacionSerializer(serializers.ModelSerializer):
         for detalle_data in detalles_data:
             CotizacionDetalle.objects.create(cotizacion=cotizacion, **detalle_data)
 
+        cotizacion.calcular_totales()
+        cotizacion.save(update_fields=[
+            "neto", "descuento_total", "flete_total", "impuesto",
+            "total", "rentabilidad_total"
+        ])
         return cotizacion
 
     def update(self, instance, validated_data):
         detalles_data = validated_data.pop("detalles", [])
+
         # Actualizar campos de la cotización
         for attr, value in validated_data.items():
             setattr(instance, attr, value)
         instance.save()
 
-        # Actualizar los detalles (simple: borra y recrea)
-        instance.detalles.all().delete()
-        for detalle_data in detalles_data:
-            CotizacionDetalle.objects.create(cotizacion=instance, **detalle_data)
+        # Manejo de detalles: actualizar existentes o crear nuevos
+        detalles_ids = [d.get("id") for d in detalles_data if d.get("id")]
+        # Eliminar detalles no enviados
+        instance.detalles.exclude(id__in=detalles_ids).delete()
 
+        for detalle_data in detalles_data:
+            detalle_id = detalle_data.get("id", None)
+            if detalle_id:
+                detalle_obj = CotizacionDetalle.objects.get(id=detalle_id, cotizacion=instance)
+                for attr, value in detalle_data.items():
+                    setattr(detalle_obj, attr, value)
+                detalle_obj.save()
+            else:
+                CotizacionDetalle.objects.create(cotizacion=instance, **detalle_data)
+
+        # Recalcular totales
+        instance.calcular_totales()
+        instance.save(update_fields=[
+            "neto", "descuento_total", "flete_total", "impuesto",
+            "total", "rentabilidad_total"
+        ])
         return instance
