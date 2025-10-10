@@ -17,13 +17,12 @@ const LoginForm = () => {
     e.preventDefault();
     try {
       const data = await loginUser({ email, password });
-      auth.setUser({ ...data.user, token: data.access });
-      window.location.href = "/dashboard"; // redirige al dashboard
+      console.log("Respuesta del backend:", data);
+      alert(data.message || "✅ Conectado correctamente al backend");
     } catch (err) {
-      alert("Credenciales inválidas");
+      alert("❌ Error de conexión o credenciales inválidas");
     }
   };
-
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <Card className="w-full max-w-md">
