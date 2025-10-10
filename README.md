@@ -130,7 +130,7 @@ El frontend se ejecutará en http://localhost:3000/, que es el puerto predetermi
 
 ## 🗂️ Estructura del proyecto
 
-    maqtec_project/
+maqtec_project/
     ├── backend/           
     │   ├── apps/           
     │   └── manage.py
