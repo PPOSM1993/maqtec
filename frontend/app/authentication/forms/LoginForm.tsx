@@ -1,14 +1,15 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useAuth } from "../hooks/useAuth";
-import { loginUser } from "../lib/api";
+import { useAuth } from "../../../hooks/useAuth";
+import { loginUser } from "../../../lib/api";
 import { useForm, SubmitHandler, FormProvider, useFormContext } from "react-hook-form";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import Image from "next/image";
+import Swal from "sweetalert2";
 
 type LoginFormInputs = {
   email: string;
@@ -40,10 +41,17 @@ const LoginForm = () => {
   const onSubmit: SubmitHandler<LoginFormInputs> = async (data) => {
     try {
       const response = await loginUser({ email: data.email, password: data.password });
+      console.log("Respuesta backend:", response);
+
       auth.setUser({ ...response.user, token: response.access });
       router.push("/dashboard");
     } catch (err) {
-      alert("❌ Error de conexión o credenciales inválidas");
+      Swal.fire({
+        icon: "error",
+        title: "Error de autenticación",
+        text: "❌ Usuario o contraseña incorrectos",
+        confirmButtonColor: "#facc15", // amarillo Maqtec
+      });
     }
   };
 

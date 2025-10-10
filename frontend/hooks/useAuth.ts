@@ -1,6 +1,13 @@
 "use client";
+
 import { create } from "zustand";
-import { User } from "../types/user";
+
+interface User {
+  id: number;
+  email: string;
+  username: string;
+  token: string;
+}
 
 interface AuthState {
   user: User | null;
@@ -11,21 +18,18 @@ interface AuthState {
 
 export const useAuth = create<AuthState>((set) => ({
   user: null,
-
   setUser: (user) => {
-    localStorage.setItem("maqtec_user", JSON.stringify(user)); // ✅ persistir
+    localStorage.setItem("maqtec_user", JSON.stringify(user));
     set({ user });
   },
-
   logout: () => {
-    localStorage.removeItem("maqtec_user"); // ✅ limpiar
+    localStorage.removeItem("maqtec_user");
     set({ user: null });
   },
-
   loadUserFromStorage: () => {
-    const storedUser = localStorage.getItem("maqtec_user");
-    if (storedUser) {
-      set({ user: JSON.parse(storedUser) });
+    if (typeof window !== "undefined") {
+      const storedUser = localStorage.getItem("maqtec_user");
+      if (storedUser) set({ user: JSON.parse(storedUser) });
     }
   },
 }));
