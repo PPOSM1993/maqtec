@@ -9,16 +9,14 @@ interface PublicRouteProps {
 }
 
 const PublicRoute = ({ children }: PublicRouteProps) => {
-  const router = useRouter();
   const { user } = useAuth();
+  const router = useRouter();
 
   useEffect(() => {
-    if (user) {
-      router.push("/dashboard"); // redirige al dashboard si ya está logueado
-    }
+    if (user) router.replace("/dashboard");
   }, [user, router]);
 
-  if (user) return null; // opcional: spinner mientras redirige
+  if (user) return null; // no renderizamos nada mientras redirige
 
   return <>{children}</>;
 };

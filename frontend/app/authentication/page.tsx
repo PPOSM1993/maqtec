@@ -1,5 +1,6 @@
-import LoginForm from "../../components/LoginForm";
-import PublicRoute from "../../routes/ProtectedRoute";
+import LoginForm from "./forms/LoginForm";
+import PublicRoute from "../../routes/PublicRoute";
+
 
 export default function LoginPage() {
   return (

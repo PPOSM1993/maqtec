@@ -4,23 +4,21 @@ import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../hooks/useAuth";
 
-interface PublicRouteProps {
+interface ProtectedRouteProps {
   children: React.ReactNode;
 }
 
-const PublicRoute = ({ children }: PublicRouteProps) => {
-  const router = useRouter();
+const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   const { user } = useAuth();
+  const router = useRouter();
 
   useEffect(() => {
-    if (user) {
-      router.push("/dashboard"); // redirige al dashboard si ya está logueado
-    }
+    if (user === null) router.replace("/authentication");
   }, [user, router]);
 
-  if (user) return null; // opcional: spinner mientras redirige
+  if (!user) return null; // no renderizamos nada mientras verificamos
 
   return <>{children}</>;
 };
 
-export default PublicRoute;
+export default ProtectedRoute;
