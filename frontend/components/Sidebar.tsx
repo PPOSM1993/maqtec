@@ -4,15 +4,16 @@ import { useState } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Home, BarChart3, Settings, Users, LogOut, Menu } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export default function Sidebar() {
     const [isCollapsed, setIsCollapsed] = useState(false);
 
     const menuItems = [
         { name: "Inicio", icon: Home, href: "/dashboard" },
-        { name: "Usuarios", icon: Users, href: "/dashboard/usuarios" },
-        { name: "Reportes", icon: BarChart3, href: "/dashboard/reportes" },
-        { name: "Configuración", icon: Settings, href: "/dashboard/configuracion" },
+        { name: "Clientes", icon: Users, href: "/clients/" },
+        { name: "Repuestos", icon: BarChart3, href: "/dashboard/reportes" },
+        { name: "Cotizaciones", icon: Settings, href: "/dashboard/configuracion" },
     ];
 
     return (
@@ -22,7 +23,7 @@ export default function Sidebar() {
             transition={{ type: "spring", stiffness: 100, damping: 15 }}
         >
             {/* Header */}
-            <div className="flex items-center justify-between p-6 md:px-4">
+            <div className="flex items-center justify-between p-2 md:px-4 text-white">
                 <AnimatePresence mode="wait">
                     {!isCollapsed && (
                         <motion.span
@@ -36,12 +37,12 @@ export default function Sidebar() {
                         </motion.span>
                     )}
                 </AnimatePresence>
-                <button
+                <Button
                     onClick={() => setIsCollapsed(!isCollapsed)}
                     className="text-gray-400 hover:text-yellow-400 transition"
                 >
                     <Menu size={25} />
-                </button>
+                </Button>
             </div>
 
             {/* Menú */}
