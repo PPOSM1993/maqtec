@@ -9,15 +9,16 @@ interface ProtectedRouteProps {
 }
 
 const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
-    if (user === null) router.replace("/authentication");
-  }, [user, router]);
+    if (!loading && user === null) {
+      router.replace("/authentication");
+    }
+  }, [user, loading, router]);
 
-  if (!user) return null; // no renderizamos nada mientras verificamos
-
+  if (loading || !user) return null; // espera a que termine de cargar
   return <>{children}</>;
 };
 
