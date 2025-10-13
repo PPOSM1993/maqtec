@@ -48,12 +48,20 @@ El proyecto está diseñado para ser escalable, modular y con enfoque profesiona
 
 ---
 
+
+<img width="1914" height="915" alt="Screenshot from 2025-10-10 17-35-43" src="https://github.com/user-attachments/assets/a4f729c7-e2e9-4875-8bd1-ff7c5f71b45b" />
+
+
+<img width="1919" height="989" alt="Screenshot from 2025-10-10 17-37-19" src="https://github.com/user-attachments/assets/1de29356-bf1e-47e4-a4d5-d3224f34a78e" />
+
+
+
 ## ⚙️ Instalación y configuración del Backend
 
 ### 1. Clonar el repositorio
 
 `
-    git clone <URL_DEL_REPO>
+    git clone https://github.com/PPOSM1993/maqtec/tree/inicio-backend
 
 ### 2.Entrar al directorio del proyecto
 
@@ -134,6 +142,13 @@ El frontend se ejecutará en <http://localhost:3000/>, que es el puerto predeter
     ├── frontend-web/
     ├── README.md
     └── docker-compose.yml
+
+        ├── backend/           
+        │   ├── apps/           
+        │   └── manage.py
+        ├── frontend-web/       
+        ├── README.md
+        └── docker-compose.yml  
 
 # 🚀 Próximos pasos
 
