@@ -29,6 +29,7 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
+import Link from "next/link";
 
 type Client = {
     id: number;
@@ -141,12 +142,12 @@ export default function ClientTable() {
             {/* Controles superiores */}
             <div className="flex flex-col md:flex-row justify-between items-center gap-3 px-6 py-4">
                 <div className="flex gap-2">
-                    <Button className="flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white font-medium rounded-none">
+                    <Link
+                        href="/clients/create"
+                        className="flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white font-medium rounded-none px-4 py-2"
+                    >
                         <FaUserPlus /> Agregar Cliente
-                    </Button>
-                    <Button className="flex items-center gap-2 bg-red-500 hover:bg-red-600 text-white font-medium rounded-none">
-                        <FaTimes /> Cancelar
-                    </Button>
+                    </Link>
                 </div>
                 <div className="flex items-center gap-3">
                     <Input
@@ -230,8 +231,8 @@ export default function ClientTable() {
             </div>
 
             {/* Footer con paginación tipo DataTable */}
-            <div 
-            className="flex flex-col sm:flex-row justify-between items-center px-6 py-4 border-t bg-gray-50 rounded-none">
+            <div
+                className="flex flex-col sm:flex-row justify-between items-center px-6 py-4 border-t bg-gray-50 rounded-none">
                 <div className="text-sm text-gray-600">
                     Mostrando{" "}
                     <span className="font-semibold">
