@@ -1,3 +1,5 @@
+import { Button } from "@/components/ui/button";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import React from "react";
 import { FaEye, FaEdit, FaTrash } from "react-icons/fa";
 
@@ -25,10 +27,11 @@ const SalesTable = () => {
       total: "$45.000",
       estado: "Cancelada",
     },
+    
   ];
 
   return (
-    <div className="bg-white shadow-md overflow-hidden">
+    <div className="bg-white shadow-md overflow-hidden border">
       <table className="w-full text-sm text-left text-gray-700">
         <thead className="bg-yellow-400 text-gray-800 uppercase text-xs font-semibold">
           <tr>
@@ -53,7 +56,7 @@ const SalesTable = () => {
               <td className="px-6 py-4">{venta.total}</td>
               <td className="px-6 py-4">
                 <span
-                  className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                  className={`px-3 py-1 rounded-none text-xs font-semibold ${
                     venta.estado === "Completada"
                       ? "bg-green-100 text-green-700"
                       : venta.estado === "Pendiente"
@@ -65,24 +68,24 @@ const SalesTable = () => {
                 </span>
               </td>
               <td className="px-6 py-4 flex justify-center gap-3">
-                <button
-                  className="p-2 text-blue-600 hover:bg-blue-50 rounded-full"
+                <Button
+                  className="p-2 text-blue-600 hover:bg-blue-50 rounded-none cursor-pointer"
                   title="Ver detalles"
                 >
                   <FaEye />
-                </button>
-                <button
+                </Button>
+                <Button
                   className="p-2 text-yellow-500 hover:bg-yellow-50 rounded-full"
                   title="Editar"
                 >
                   <FaEdit />
-                </button>
-                <button
+                </Button>
+                <Button
                   className="p-2 text-red-500 hover:bg-red-50 rounded-full"
                   title="Eliminar"
                 >
                   <FaTrash />
-                </button>
+                </Button>
               </td>
             </tr>
           ))}
@@ -93,12 +96,14 @@ const SalesTable = () => {
       <div className="flex items-center justify-between p-4 border-t bg-gray-50 text-sm text-gray-600">
         <span>Mostrando 1–3 de 3 resultados</span>
         <div className="flex gap-2">
-          <button className="px-3 py-1 bg-white border rounded-md hover:bg-gray-100">
+          <Button className="flex px-3 py-1 bg-white border hover:bg-gray-100 rounded-none">
+            <ArrowLeft className=""/>
             Anterior
-          </button>
-          <button className="px-3 py-1 bg-white border rounded-md hover:bg-gray-100">
+          </Button>
+          <Button className="flex px-3 py-1 bg-white border hover:bg-gray-100 rounded-none">
+            <ArrowRight />
             Siguiente
-          </button>
+          </Button>
         </div>
       </div>
     </div>
