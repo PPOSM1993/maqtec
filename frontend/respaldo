@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -17,7 +17,6 @@ import { MdCancel } from "react-icons/md";
 import { useRouter } from "next/navigation";
 import { ArrowLeftIcon, ArrowRightIcon, PlusCircleIcon } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
-import { getCookie } from "../../../../lib/api";
 
 interface Region {
   id: number;
@@ -73,67 +72,49 @@ export default function ClientsForm() {
   const [regions, setRegions] = useState<Region[]>([]);
   const [cities, setCities] = useState<City[]>([]);
   const [communes, setCommunes] = useState<Commune[]>([]);
-  const selectClasses = "h-10 px-3 bg-white rounded-none text-gray-800 shadow-sm flex items-center justify-between";
 
-  // Filtrado de ciudades según región seleccionada
-  const filteredCities = selectedRegion
-    ? cities.filter((c) => c.region.id === selectedRegion)
-    : [];
+  // ===== Filtrado dinámico =====
+  const filteredCities = cities.filter(
+    (c) => selectedRegion !== null && c.region === selectedRegion
+  );
 
-  // Filtrado de comunas según ciudad seleccionada
-  const filteredCommunes = selectedCity
-    ? communes.filter((c) => c.city.id === selectedCity)
-    : [];
+  const filteredCommunes = communes.filter(
+    (c) => selectedCity !== null && c.city === selectedCity
+  );
 
-
+  // ===== Cargar datos desde /api/clients/ =====
   useEffect(() => {
     async function fetchReferenceData() {
       try {
-        const storedUser = JSON.parse(localStorage.getItem("maqtec_user") || "null");
-        const token = storedUser?.token;
-
-        if (!token) {
-          alert("Debes iniciar sesión");
-          router.push("/login");
-          return;
-        }
-
-        const res = await fetch(
-          "http://localhost:8000/api/clients/clients/?page_size=1000",
-          {
-            headers: {
-              "Content-Type": "application/json",
-              "Authorization": `Bearer ${token}`,
-            },
-          }
+        const res = await axios.get("http://localhost:8000/api/clients/clients/", {
+          withCredentials: true,
+        });
+        // Asignar los datos al estado
+        setRegions(
+          res.data.regions.map((r: any) => ({
+            id: r["comuna__city__region__id"],
+            nombre: r["comuna__city__region__nombre"],
+          }))
         );
 
-        if (res.status === 401) {
-          alert("Tu sesión expiró, inicia sesión nuevamente");
-          router.push("/login");
-          return;
-        }
+        setCities(
+          res.data.cities.map((c: any) => ({
+            id: c["comuna__city__id"],
+            nombre: c["comuna__city__nombre"],
+            region: c["comuna__city__region__id"],
+          }))
+        );
 
-        if (!res.ok) throw new Error(`Error HTTP: ${res.status}`);
-
-        const data = await res.json();
-
-        // Asegurarnos que siempre sean arrays válidos
-        const regionsData = Array.isArray(data.regions) ? data.regions : [];
-        const citiesData = Array.isArray(data.cities) ? data.cities : [];
-        const communesData = Array.isArray(data.communes) ? data.communes : [];
-
-        setRegions(regionsData);
-        setCities(citiesData);
-        setCommunes(communesData);
-
+        setCommunes(
+          res.data.communes.map((c: any) => ({
+            id: c["comuna__id"],
+            nombre: c["comuna__nombre"],
+            city: c["comuna__city__id"],
+          }))
+        );
       } catch (error: any) {
-        console.error("Error cargando datos:", error);
+        console.error("AXIOS ERROR:", error.response?.status, error.response?.data);
         alert("Error cargando regiones, ciudades y comunas");
-        // Siempre inicializamos arrays vacíos para evitar errores de .filter
-        setRegions([]);
-        setCities([]);
-        setCommunes([]);
       }
     }
 
@@ -242,10 +223,10 @@ export default function ClientsForm() {
                 className="rounded-none"
               />
             </div>
-            {/* Región */}
 
+            {/* Región */}
             <div>
-               <Label>Región</Label>
+              <Label>Región</Label>
               <Select
                 onValueChange={(val) => {
                   setSelectedRegion(Number(val));
@@ -254,8 +235,8 @@ export default function ClientsForm() {
                 }}
                 value={selectedRegion?.toString() || ""}
               >
-                <SelectTrigger className="bg-white border border-gray-300 rounded-none h-10 px-3 flex items-center justify-between shadow-sm">
-                  <SelectValue placeholder="Seleccionar Región" className="text-gray-700" />
+                <SelectTrigger className="rounded-none">
+                  <SelectValue placeholder="Seleccionar Región" />
                 </SelectTrigger>
                 <SelectContent>
                   {regions.map((r) => (
@@ -265,24 +246,21 @@ export default function ClientsForm() {
                   ))}
                 </SelectContent>
               </Select>
-
             </div>
 
-
             {/* Ciudad */}
-
             <div>
-               <Label>Ciudad</Label>
+              <Label>Ciudad</Label>
               <Select
                 onValueChange={(val) => {
                   setSelectedCity(Number(val));
                   setSelectedCommune(null);
                 }}
                 value={selectedCity?.toString() || ""}
-                disabled={filteredCities.length === 0}
+                disabled={!selectedRegion}
               >
-                <SelectTrigger className="bg-white border border-gray-300 rounded-none h-10 px-3 flex items-center justify-between shadow-sm">
-                  <SelectValue placeholder="Seleccionar Ciudad" className="text-gray-700" />
+                <SelectTrigger className="rounded-none">
+                  <SelectValue placeholder="Seleccionar Ciudad" />
                 </SelectTrigger>
                 <SelectContent>
                   {filteredCities.map((c) => (
@@ -294,17 +272,16 @@ export default function ClientsForm() {
               </Select>
             </div>
 
-
             {/* Comuna */}
             <div>
-               <Label>Comuna</Label>
+              <Label>Comuna</Label>
               <Select
                 onValueChange={(val) => setSelectedCommune(Number(val))}
                 value={selectedCommune?.toString() || ""}
-                disabled={filteredCommunes.length === 0}
+                disabled={!selectedCity}
               >
-                <SelectTrigger className="bg-white border border-gray-300 rounded-none h-10 px-3 flex items-center justify-between shadow-sm">
-                  <SelectValue placeholder="Seleccionar Comuna" className="text-gray-700" />
+                <SelectTrigger className="rounded-none">
+                  <SelectValue placeholder="Seleccionar Comuna" />
                 </SelectTrigger>
                 <SelectContent>
                   {filteredCommunes.map((c) => (
@@ -315,8 +292,6 @@ export default function ClientsForm() {
                 </SelectContent>
               </Select>
             </div>
-
-
 
             {/* Descuento, Activo, Teléfono */}
             <div>
