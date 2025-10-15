@@ -1,6 +1,10 @@
+// api.ts
 // Función para leer la cookie csrftoken
-function getCookie(name: string) {
+// utils/cookies.ts
+export function getCookie(name: string) {
   let cookieValue = null;
+  if (typeof document === "undefined") return null;
+
   if (document.cookie && document.cookie !== "") {
     const cookies = document.cookie.split(";");
     for (let i = 0; i < cookies.length; i++) {
@@ -14,6 +18,7 @@ function getCookie(name: string) {
   return cookieValue;
 }
 
+
 export const loginUser = async ({
   email,
   password,
@@ -22,7 +27,7 @@ export const loginUser = async ({
 
   const res = await fetch("http://127.0.0.1:8000/api/authentication/login/", {
     method: "POST",
-    credentials: "include", // necesario para que Django acepte cookies
+    credentials: "include", // 🔑 esto hace que Django setee la cookie
     headers: {
       "Content-Type": "application/json",
       "X-CSRFToken": csrfToken || "",
@@ -31,5 +36,5 @@ export const loginUser = async ({
   });
 
   if (!res.ok) throw new Error("Credenciales inválidas");
-  return res.json();
+  return res.json(); // aquí recibes los datos del usuario, pero no el token
 };
