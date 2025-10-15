@@ -45,7 +45,7 @@ class ClienteCuentaInline(admin.TabularInline):
 # -----------------------------
 @admin.register(Cliente)
 class ClienteAdmin(admin.ModelAdmin):
-    list_display = ('id', 'nombre', 'rut', 'fantasia', 'comuna', 'vendedor', 'activo')
+    list_display = ('id', 'nombre', 'rut', 'fantasia', 'comuna', 'get_city', 'get_region', 'vendedor', 'activo')
     list_filter = ('activo', 'comuna__city', 'comuna__city__region')
     search_fields = ('nombre', 'rut', 'fantasia', 'giro')
     autocomplete_fields = ('comuna', 'vendedor')
@@ -54,7 +54,7 @@ class ClienteAdmin(admin.ModelAdmin):
     fieldsets = (
         ('Información General', {
             'fields': ('nombre', 'rut', 'fantasia', 'giro', 'activo', 'descuento', 'telefono'),
-            'classes': ('grp-collapse grp-open',),  # Grappelli colapsable
+            'classes': ('grp-collapse grp-open',),
         }),
         ('Ubicación y Responsable', {
             'fields': ('comuna', 'vendedor'),
@@ -62,14 +62,24 @@ class ClienteAdmin(admin.ModelAdmin):
         }),
         ('Finanzas', {
             'fields': (),
-            'classes': ('grp-tab',),  # Grappelli crea pestaña
+            'classes': ('grp-tab',),
         }),
         ('Cuentas', {
             'fields': (),
-            'classes': ('grp-tab',),  # Otra pestaña
+            'classes': ('grp-tab',),
         }),
     )
 
+    # Métodos para mostrar city y region
+    def get_city(self, obj):
+        return obj.comuna.city.nombre if obj.comuna else None
+    get_city.admin_order_field = 'comuna__city'  # permite ordenar por city
+    get_city.short_description = 'Ciudad'
+
+    def get_region(self, obj):
+        return obj.comuna.city.region.nombre if obj.comuna else None
+    get_region.admin_order_field = 'comuna__city__region'  # permite ordenar por region
+    get_region.short_description = 'Región'
 # -----------------------------
 # ClienteFinanza y ClienteCuenta independientes
 # -----------------------------

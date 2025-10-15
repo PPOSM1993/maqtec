@@ -16,6 +16,7 @@ import { Form } from "@/components/ui/form";
 import { MdCancel } from "react-icons/md";
 import { useRouter } from "next/navigation";
 import { ArrowLeftIcon, ArrowRightIcon, PlusCircleIcon } from "lucide-react";
+import { Checkbox } from "@/components/ui/checkbox";
 
 interface Region {
   id: number;
@@ -130,6 +131,7 @@ export default function ClientsForm({
                 value={rut}
                 onChange={(e) => setRut(e.target.value)}
                 placeholder="12345678-5"
+                className="rounded-none"
               />
             </div>
             <div>
@@ -138,6 +140,7 @@ export default function ClientsForm({
                 id="nombre"
                 value={nombre}
                 onChange={(e) => setNombre(e.target.value)}
+                className="rounded-none"
               />
             </div>
             <div>
@@ -146,6 +149,7 @@ export default function ClientsForm({
                 id="fantasia"
                 value={fantasia}
                 onChange={(e) => setFantasia(e.target.value)}
+                className="rounded-none"
               />
             </div>
             <div>
@@ -154,6 +158,7 @@ export default function ClientsForm({
                 id="giro"
                 value={giro}
                 onChange={(e) => setGiro(e.target.value)}
+                className="rounded-none"
               />
             </div>
             <div className="md:col-span-2">
@@ -162,6 +167,7 @@ export default function ClientsForm({
                 id="direccion"
                 value={direccion}
                 onChange={(e) => setDireccion(e.target.value)}
+                className="rounded-none"
               />
             </div>
             <div>
@@ -170,7 +176,7 @@ export default function ClientsForm({
                 onValueChange={(val) => setRegion(Number(val))}
                 value={region?.toString() || ""}
               >
-                <SelectTrigger>
+                <SelectTrigger className="rounded-none">
                   <SelectValue placeholder="Seleccionar Región" />
                 </SelectTrigger>
                 <SelectContent>
@@ -189,7 +195,7 @@ export default function ClientsForm({
                 value={comuna?.toString() || ""}
                 disabled={!region}
               >
-                <SelectTrigger>
+                <SelectTrigger className="rounded-none">
                   <SelectValue placeholder="Seleccionar Comuna" />
                 </SelectTrigger>
                 <SelectContent>
@@ -210,16 +216,19 @@ export default function ClientsForm({
                 onChange={(e) => setDescuento(Number(e.target.value))}
                 min={0}
                 max={100}
+                className="rounded-none"
               />
             </div>
-            <div className="flex items-center gap-2">
-              <Input
-                type="checkbox"
+            <div className="flex items-center space-x-2 mt-6 md:mt-0 bg">
+              <Checkbox
                 id="activo"
                 checked={activo}
-                onChange={(e) => setActivo(e.target.checked)}
+                onCheckedChange={setActivo}
+                className="w-6 h-6 accent-yellow-500 cursor-pointer bg-yellow-500 rounded-none"
               />
-              <Label htmlFor="activo">Activo</Label>
+              <label htmlFor="activo" className="text-sm font-medium leading-none">
+                Activo
+              </label>
             </div>
             <div className="md:col-span-2">
               <Label htmlFor="telefono">Teléfono</Label>
@@ -227,6 +236,7 @@ export default function ClientsForm({
                 id="telefono"
                 value={telefono}
                 onChange={(e) => setTelefono(e.target.value)}
+                className="rounded-none"
               />
             </div>
           </div>
@@ -245,6 +255,7 @@ export default function ClientsForm({
                 type="number"
                 value={credito}
                 onChange={(e) => setCredito(Number(e.target.value))}
+                className="rounded-none"
               />
             </div>
             <div>
@@ -254,6 +265,7 @@ export default function ClientsForm({
                 type="number"
                 value={deuda}
                 onChange={(e) => setDeuda(Number(e.target.value))}
+                className="rounded-none"
               />
             </div>
             <div>
@@ -263,6 +275,7 @@ export default function ClientsForm({
                 type="number"
                 value={solicitado}
                 onChange={(e) => setSolicitado(Number(e.target.value))}
+                className="rounded-none"
               />
             </div>
             <div>
@@ -274,6 +287,7 @@ export default function ClientsForm({
                 onChange={(e) => setDiaPago(Number(e.target.value))}
                 min={1}
                 max={31}
+                className="rounded-none"
               />
             </div>
           </div>
@@ -291,6 +305,7 @@ export default function ClientsForm({
                 id="banco"
                 value={banco}
                 onChange={(e) => setBanco(e.target.value)}
+                className="rounded-none"
               />
             </div>
             <div>
@@ -299,6 +314,7 @@ export default function ClientsForm({
                 id="cuentaCorriente"
                 value={cuentaCorriente}
                 onChange={(e) => setCuentaCorriente(e.target.value)}
+                className="rounded-none"
               />
             </div>
             <div>
@@ -307,6 +323,7 @@ export default function ClientsForm({
                 id="titular"
                 value={titular}
                 onChange={(e) => setTitular(e.target.value)}
+                className="rounded-none"
               />
             </div>
             <div>
@@ -316,6 +333,7 @@ export default function ClientsForm({
                 type="number"
                 value={montoCheque}
                 onChange={(e) => setMontoCheque(Number(e.target.value))}
+                className="rounded-none"
               />
             </div>
             <div className="md:col-span-2">
@@ -324,6 +342,7 @@ export default function ClientsForm({
                 id="mandato"
                 value={mandato}
                 onChange={(e) => setMandato(e.target.value)}
+                className="rounded-none"
               />
             </div>
           </div>
@@ -341,7 +360,7 @@ export default function ClientsForm({
           )}
 
           {step < 3 && (
-          <Button type="button" onClick={nextStep} className="flex bg-gray-800 hover:bg-gray-800 rounded-none text-white">
+            <Button type="button" onClick={nextStep} className="flex bg-gray-800 hover:bg-gray-800 rounded-none text-white">
               <ArrowRightIcon />
               Siguiente
             </Button>
