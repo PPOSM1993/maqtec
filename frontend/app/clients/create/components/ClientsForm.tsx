@@ -21,6 +21,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { getCookie } from "../../../../lib/api";
 import { User } from "../../../../types/user";
 import { useAuth } from "../../../../hooks/useAuth";
+import Swal from "sweetalert2";
 
 interface Region {
   id: number;
@@ -172,7 +173,13 @@ export default function ClientsForm() {
     // === Validaciones básicas ===
     if (!rut || !nombre || !giro || !direccion || !selectedRegion || !selectedCity || !selectedCommune || !telefono) {
       console.log("⚠️ Falta un campo obligatorio");
-      alert("Por favor completa todos los campos obligatorios antes de continuar.");
+      Swal.fire({
+        icon: "error",
+        title: "Error al guardar",
+        confirmButtonColor: "#dc3545", // amarillo Maqtec
+        text: "Por favor completa todos los campos obligatorios antes de continuar.",
+      });
+
       return;
     }
 
@@ -245,12 +252,23 @@ export default function ClientsForm() {
 
       console.log("📥 Respuesta recibida:", response.status);
 
-      if (!response.ok) {
-        // 👉 Mejor captura de error, para ver exactamente lo que devuelve Django
-        const text = await response.text();
-        console.error("❌ Error en backend:", text);
-        alert(`❌ Error al crear cliente. Revisa la consola (Status ${response.status})`);
-        return;
+      if (response.ok) {
+        Swal.fire({
+          icon: "success",
+          title: "¡Cliente guardado!",
+          text: "El cliente fue registrado exitosamente.",
+          showConfirmButton: false,
+          confirmButtonColor: "#198754",
+          timer: 2000,
+        });
+      } else {
+        const errorData = await response.json();
+        Swal.fire({
+          icon: "error",
+          title: "Error al guardar",
+          confirmButtonColor: "#dc3545",
+          text: errorData?.detail || "Ocurrió un error al guardar el cliente.",
+        });
       }
 
       alert("✅ Cliente creado correctamente.");

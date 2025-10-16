@@ -20,6 +20,8 @@ export default function Sidebar() {
         <motion.div
             animate={{ width: isCollapsed ? "5rem" : "16rem" }}
             className="h-screen bg-[#1E1E1E] text-white flex flex-col border-r border-gray-800"
+            style={{ width: "16rem", height: "auto" }}
+
             transition={{ type: "spring", stiffness: 100, damping: 15 }}
         >
             {/* Header */}
