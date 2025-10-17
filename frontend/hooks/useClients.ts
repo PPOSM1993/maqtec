@@ -1,60 +1,40 @@
-// hooks/useClients.ts
 "use client";
+
 import { useEffect, useState } from "react";
+import { axiosInstance } from "../lib/axiosInstance";
 
 export interface Client {
   id: number;
   nombre: string;
-  email: string;
+  rut: string;
+  telefono: string;
+  email?: string;
 }
 
 export function useClients() {
   const [clients, setClients] = useState<Client[]>([]);
+  const [regions, setRegions] = useState<any[]>([]);
+  const [cities, setCities] = useState<any[]>([]);
+  const [communes, setCommunes] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchClients = async () => {
       try {
-        // 🔹 Tomamos el token de localStorage o usamos un token de prueba
-        const storedToken = localStorage.getItem("access_token");
-        const token = storedToken || "TU_TOKEN_DE_PRUEBA_AQUI"; // reemplaza con un JWT válido
+        const res = await axiosInstance.get("/clients/clients/");
+        console.log("📦 Respuesta backend:", res.data);
 
-        if (!token) {
-          setError("No se encontró token. Por favor inicia sesión.");
-          setLoading(false);
-          return;
-        }
+        const { clients, regions, cities, communes } = res.data;
 
-        const res = await fetch("http://localhost:8000/api/clients/clients/", {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        if (res.status === 401) {
-          setError("Token inválido o expirado. Por favor inicia sesión de nuevo.");
-          setLoading(false);
-          return;
-        }
-
-        if (!res.ok) {
-          throw new Error("Error al obtener los clientes: " + res.status);
-        }
-
-        const data = await res.json();
-        console.log("Respuesta del backend:", data);
-
-        const mappedClients = data.map((c: any) => ({
-          id: c.id,
-          nombre: c.nombre || c.name || "—",
-          email: c.email || c.email_address || "—",
-        }));
-
-        setClients(mappedClients);
+        // 🧭 Los clientes están dentro de clients.results
+        setClients(clients?.results || []);
+        setRegions(regions);
+        setCities(cities);
+        setCommunes(communes);
       } catch (err: any) {
-        setError(err.message);
+        console.error("❌ Error al obtener clientes:", err);
+        setError("No se pudieron cargar los clientes. Verifica el token o el servidor.");
       } finally {
         setLoading(false);
       }
@@ -63,5 +43,5 @@ export function useClients() {
     fetchClients();
   }, []);
 
-  return { clients, loading, error };
+  return { clients, regions, cities, communes, loading, error };
 }
