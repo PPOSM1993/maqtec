@@ -1,20 +1,16 @@
 import axios from "axios";
 
-// ⚡ Asegúrate que el baseURL apunta al backend DRF
-export const axiosInstance = axios.create({
-  baseURL: "http://localhost:8000/api", // Ajusta si tu API tiene otro prefijo
-  headers: {
-    "Content-Type": "application/json",
-  },
+const axiosInstance = axios.create({
+  baseURL: process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api/",
+  withCredentials: true,
 });
 
-// Interceptor para enviar token JWT automáticamente
 axiosInstance.interceptors.request.use((config) => {
-  if (typeof window !== "undefined") {
-    const token = localStorage.getItem("access"); // 👈 nombre correcto del token
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
+  const token = typeof window !== "undefined" ? localStorage.getItem("access") : null;
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
   }
   return config;
 });
+
+export default axiosInstance;
