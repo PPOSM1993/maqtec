@@ -10,16 +10,18 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from "@/components/ui/select";
 import { FaPlus } from "react-icons/fa";
 import { Form } from "@/components/ui/form"; // <-- tu componente Form
-// Layout
+// Layoutimport { MdOutlineArrowBackIosNew } from "react-icons/md";
+
 import Navbar from "../../../components/Navbar";
 import Sidebar from "../../../components/Sidebar";
 import Footer from "../../../components/Footer";
+import { MdOutlineArrowBackIosNew } from "react-icons/md";
 
 // Constantes para selects
 const categorias = ["Herramienta", "Maquinaria", "Insumo", "Repuesto", "Servicio", "Otro"];
-const unidades = ["unidad", "kg", "lt", "m2", "m3"];
+const unidades = ["Unidad", "kg", "lt", "m2", "m3"];
 const monedas = ["CLP", "USD", "EUR"];
-const condiciones = ["nuevo", "usado", "Refabricado"];
+const condiciones = ["Nuevo", "Usado", "Refabricado"];
 
 // Tipo de formulario
 type ProductFormData = {
@@ -63,9 +65,9 @@ const NewProductPage = () => {
             articulo_activo: true,
             control_stock: true,
             tipo_moneda: "CLP",
-            condicion: "nuevo",
+            condicion: "Nuevo",
             categoria: "Repuesto",
-            unidad_medida: "unidad",
+            unidad_medida: "Unidad",
         },
     });
 
@@ -86,7 +88,8 @@ const NewProductPage = () => {
                     <div className="flex justify-between items-center mb-6">
                         <h1 className="text-2xl font-bold">Crear Nuevo Producto</h1>
                         <Link href="/products">
-                            <Button className="bg-gray-500 hover:bg-gray-600 text-white">
+                            <Button className="self-end flex items-center gap-2 bg-red-600 hover:bg-red-600 text-white font-medium rounded px-3 py-2 rounded-none">
+                                <MdOutlineArrowBackIosNew />
                                 Volver a Repuestos
                             </Button>
                         </Link>
@@ -103,6 +106,7 @@ const NewProductPage = () => {
                                     variant={tab === t ? "default" : "outline"}
                                     size="sm"
                                     onClick={() => setTab(t as any)}
+                                    className="flex items-center gap-2 bg-red-500 hover:bg-red-500 text-white font-medium rounded-none px-3 py-2"
                                 >
                                     {t.charAt(0).toUpperCase() + t.slice(1)}
                                 </Button>
@@ -133,7 +137,7 @@ const NewProductPage = () => {
                                                     <SelectTrigger>
                                                         <SelectValue placeholder="Seleccione categoría" />
                                                     </SelectTrigger>
-                                                    <SelectContent>
+                                                    <SelectContent className="w-[130px] bg-gray-100">
                                                         {categorias.map((cat) => <SelectItem key={cat} value={cat}>{cat}</SelectItem>)}
                                                     </SelectContent>
                                                 </Select>
@@ -160,11 +164,11 @@ const NewProductPage = () => {
                                     </div>
                                     <div className="flex gap-4">
                                         <div className="flex items-center space-x-2">
-                                            <Checkbox {...register("articulo_activo")} defaultChecked />
+                                            <Checkbox {...register("articulo_activo")} defaultChecked className="bg-gray-700 hover:bg-gray-700 text-white font-medium rounded-none px-3 py-2" />
                                             <Label>Artículo Activo</Label>
                                         </div>
                                         <div className="flex items-center space-x-2">
-                                            <Checkbox {...register("control_stock")} defaultChecked />
+                                            <Checkbox {...register("control_stock")} defaultChecked className="bg-gray-700 hover:bg-gray-700 text-white font-medium rounded-none px-3 py-2" />
                                             <Label>Control Stock</Label>
                                         </div>
                                     </div>
@@ -192,7 +196,7 @@ const NewProductPage = () => {
                                                     <SelectTrigger>
                                                         <SelectValue placeholder="Seleccione unidad" />
                                                     </SelectTrigger>
-                                                    <SelectContent>
+                                                    <SelectContent className="w-[130px] bg-gray-100">
                                                         {unidades.map((u) => <SelectItem key={u} value={u}>{u}</SelectItem>)}
                                                     </SelectContent>
                                                 </Select>
