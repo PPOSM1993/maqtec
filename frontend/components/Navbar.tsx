@@ -35,15 +35,7 @@ const Navbar: React.FC<NavbarProps> = ({ onToggleSidebar }) => {
           </Button>
         )}
 
-        {/* Logo Maqtec */}
-        <div className="relative w-20 h-10 md:w-20 md:h-20 rounded-sm">
-          <Image
-            src="/logo2.png"
-            alt="Maqtec Logo"
-            fill
-            priority
-          />
-        </div>
+
       </div>
 
       {/* === Derecha: Usuario + Logout === */}

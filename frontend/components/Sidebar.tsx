@@ -5,7 +5,7 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Home, BarChart3, Settings, Users, LogOut, Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
+import Image from "next/image";
 export default function Sidebar() {
     const [isCollapsed, setIsCollapsed] = useState(false);
 
@@ -25,7 +25,7 @@ export default function Sidebar() {
             transition={{ type: "spring", stiffness: 100, damping: 15 }}
         >
             {/* Header */}
-            <div className="flex items-center justify-between p-2 md:px-4 text-white">
+            <div className="flex items-center justify-between p-2 xl:px-1 text-white">
                 <AnimatePresence mode="wait">
                     {!isCollapsed && (
                         <motion.span
@@ -35,7 +35,15 @@ export default function Sidebar() {
                             exit={{ opacity: 0, x: -10 }}
                             className="text-lg font-bold tracking-wide text-yellow-400"
                         >
-                            MAQTEC
+                            <Image
+                                src="/logo.png"
+                                alt="Maqtec Logo"
+                                className="py-3"
+                                width={60}
+                                height={50}
+                                priority
+                            />
+
                         </motion.span>
                     )}
                 </AnimatePresence>
