@@ -4,6 +4,8 @@ import { useState } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Home, BarChart3, Settings, Users, LogOut, Menu } from "lucide-react";
+import { FaTools } from "react-icons/fa";
+
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 export default function Sidebar() {
@@ -12,7 +14,7 @@ export default function Sidebar() {
     const menuItems = [
         { name: "Inicio", icon: Home, href: "/dashboard" },
         { name: "Clientes", icon: Users, href: "/clients/" },
-        { name: "Repuestos", icon: BarChart3, href: "/products/" },
+        { name: "Repuestos", icon: FaTools, href: "/products/" },
         { name: "Cotizaciones", icon: Settings, href: "/dashboard/configuracion" },
     ];
 
@@ -25,7 +27,7 @@ export default function Sidebar() {
             transition={{ type: "spring", stiffness: 100, damping: 15 }}
         >
             {/* Header */}
-            <div className="flex items-center justify-between p-2 xl:px-1 text-white">
+            <div className="flex items-center justify-between p-2 xl:px-3 text-white">
                 <AnimatePresence mode="wait">
                     {!isCollapsed && (
                         <motion.span
