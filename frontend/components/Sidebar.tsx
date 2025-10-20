@@ -12,7 +12,7 @@ export default function Sidebar() {
     const menuItems = [
         { name: "Inicio", icon: Home, href: "/dashboard" },
         { name: "Clientes", icon: Users, href: "/clients/" },
-        { name: "Repuestos", icon: BarChart3, href: "/dashboard/reportes" },
+        { name: "Repuestos", icon: BarChart3, href: "/products/" },
         { name: "Cotizaciones", icon: Settings, href: "/dashboard/configuracion" },
     ];
 
